@@ -11,6 +11,7 @@
       "icon": "./assets/expo.icon"
     },
     "android": {
+      "package": "com.helpeachother.app",
       "adaptiveIcon": {
         "backgroundColor": "#E6F4FE",
         "foregroundImage": "./assets/images/android-icon-foreground.png",
@@ -25,6 +26,7 @@
     },
     "plugins": [
       "expo-router",
+       "@react-native-google-signin/google-signin",
       [
         "expo-splash-screen",
         {
@@ -34,11 +36,18 @@
             "imageWidth": 76
           }
         }
-      ]
+      ],
+      "expo-web-browser"
     ],
     "experiments": {
       "typedRoutes": true,
       "reactCompiler": true
+    },
+    "extra": {
+      "router": {},
+      "eas": {
+        "projectId": "78210570-6d00-4b93-956e-2f00d32aabaf"
+      }
     }
   }
 }
