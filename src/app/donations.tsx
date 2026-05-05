@@ -28,7 +28,7 @@ export default function DonationsScreen() {
       console.log('DONATIONS API ==>', res);
       setDonations(res.response || []);
     } catch (err) {
-      console.error('Donation fetch error:', err);
+      console.log('DONATIONS fetch error:', err);
       setError('Failed to load donations');
     } finally {
       setLoading(false);
@@ -86,31 +86,36 @@ export default function DonationsScreen() {
         keyExtractor={(item) => item._id}
         contentContainerStyle={styles.list}
         renderItem={({ item }) => (
-          <View style={styles.card}>
-            <View style={styles.cardHeader}>
-              <View
-                style={[
-                  styles.badge,
-                  { backgroundColor: BLOOD_COLORS[item.blood_group] || '#666' },
-                ]}
-              >
-                <Text style={styles.badgeText}>{item.blood_group}</Text>
+          <TouchableOpacity
+            activeOpacity={0.8}
+            style={styles.card}
+            onPress={() => router.push(`/donations/${item._id}` as any)}
+          >
+              <View style={styles.cardHeader}>
+                <View
+                  style={[
+                    styles.badge,
+                    { backgroundColor: BLOOD_COLORS[item.blood_group] || '#666' },
+                  ]}
+                >
+                  <Text style={styles.badgeText}>{item.blood_group}</Text>
+                </View>
+                <Text style={styles.name}>{item.username || 'Unknown'}</Text>
               </View>
-              <Text style={styles.name}>{item.username || 'Unknown'}</Text>
-            </View>
 
-            <Text style={styles.detail}>
-              🏥 {item.hospital_name || 'N/A'}
-            </Text>
+              <Text style={styles.detail}>
+                🏥 {item.hospital_name || 'N/A'}
+              </Text>
 
-            <Text style={styles.detail}>
-              📅 {formatDate(item.donation_date || item.created_at)}
-            </Text>
+              <Text style={styles.detail}>
+                📅 {formatDate(item.donation_date || item.created_at)}
+              </Text>
 
-            <Text style={styles.detail}>
-              📍 {formatLocation(item)}
-            </Text>
-          </View>
+              <Text style={styles.detail}>
+                📍 {formatLocation(item)}
+              </Text>
+
+          </TouchableOpacity>
         )}
         ListEmptyComponent={
           <View style={styles.centered}>
@@ -152,6 +157,7 @@ const styles = StyleSheet.create({
     marginBottom: 12,
     borderWidth: 0.5,
     borderColor: '#E8E8E8',
+     overflow: 'hidden',
   },
   cardHeader: { flexDirection: 'row', alignItems: 'center', marginBottom: 12 },
   badge: {

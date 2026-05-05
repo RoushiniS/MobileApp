@@ -116,7 +116,7 @@ export default function HomeScreen() {
         {/* <View style={styles.avatar}>
           <Text style={styles.avatarText}>{initials}</Text>
         </View> */}
-      </View>
+      </View>profil
 
       {error && <Text style={styles.errorText}>{error}</Text>}
 
