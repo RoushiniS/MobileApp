@@ -1,30 +1,13 @@
 import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useColorScheme, View, ActivityIndicator } from 'react-native';
-import { useRouter, useSegments, Slot } from 'expo-router';
-
-import { AnimatedSplashOverlay } from '@/components/animated-icon';
-import AppTabs from '@/components/app-tabs';
+import { Slot, Stack } from 'expo-router';
 import { useAuth } from '@/hooks/useAuth';
+
 
 export default function RootLayout() {
   const colorScheme = useColorScheme();
-  const { user, loading } = useAuth();
-  const router = useRouter();
-  const segments = useSegments();
-
-  useEffect(() => {
-    if (loading) return;
-
-    const inAuthGroup = segments[0] === '(auth)';
-
-    if (!user && !inAuthGroup) {
-      router.replace('/(auth)/login');
-    } else if (user && inAuthGroup) {
-      router.replace('/(tabs)/home');
-    }
-  }, [user, loading]);
-  console.log(user, 'USER===')
+  const { loading } = useAuth();
 
   if (loading) {
     return (
@@ -36,8 +19,9 @@ export default function RootLayout() {
 
   return (
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <AnimatedSplashOverlay />
-      {user ? <AppTabs /> : <Slot />}
+      <Stack>
+           <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
+      </Stack>
     </ThemeProvider>
   );
 }

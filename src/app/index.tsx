@@ -1,32 +1,49 @@
-import { View, Text, Pressable, StyleSheet } from 'react-native';
-import { signOut } from 'firebase/auth';
-import { auth } from '../../firebaseConfig';
+// import { View, Text, Pressable, StyleSheet } from 'react-native';
+// import { signOut } from 'firebase/auth';
+// import { auth } from '../../firebaseConfig';
+// import { useAuth } from '@/hooks/useAuth';
+
+// export default function HomeScreen() {
+//   const { user } = useAuth();
+
+//   return (
+//     <View style={styles.container}>
+//       <Text style={styles.title}>Hello!</Text>
+//       <Text style={styles.email}>{user?.email}</Text>
+//       <Pressable style={styles.button} onPress={() => signOut(auth)}>
+//         <Text style={styles.buttonText}>Sign Out</Text>
+//       </Pressable>
+//     </View>
+//   );
+// }
+
+// const styles = StyleSheet.create({
+//   container: {
+//     flex: 1,
+//     justifyContent: 'center',
+//     alignItems: 'center',
+//     padding: 24,
+//     backgroundColor: '#fff',
+//   },
+//   title: { fontSize: 28, fontWeight: 'bold', marginBottom: 8 },
+//   email: { fontSize: 16, color: '#666', marginBottom: 48 },
+//   button: { backgroundColor: '#ff4444', paddingVertical: 14, paddingHorizontal: 32, borderRadius: 8 },
+//   buttonText: { color: '#fff', fontSize: 16, fontWeight: '600' },
+// });
+// src/app/index.tsx
+import { Redirect, router } from 'expo-router';
 import { useAuth } from '@/hooks/useAuth';
+import { useEffect } from 'react';
 
-export default function HomeScreen() {
-  const { user } = useAuth();
-
-  return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Hello!</Text>
-      <Text style={styles.email}>{user?.email}</Text>
-      <Pressable style={styles.button} onPress={() => signOut(auth)}>
-        <Text style={styles.buttonText}>Sign Out</Text>
-      </Pressable>
-    </View>
-  );
+export default function Index() {
+  const { user, loading } = useAuth();
+  console.log(user, 'user==user')
+  
+  useEffect(() => {
+    if (!loading) {   
+      router.replace(user ? '/(tabs)/home' : '/(auth)/login');
+    }
+  }, [user, loading]);
+  
+  return null;
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    padding: 24,
-    backgroundColor: '#fff',
-  },
-  title: { fontSize: 28, fontWeight: 'bold', marginBottom: 8 },
-  email: { fontSize: 16, color: '#666', marginBottom: 48 },
-  button: { backgroundColor: '#ff4444', paddingVertical: 14, paddingHorizontal: 32, borderRadius: 8 },
-  buttonText: { color: '#fff', fontSize: 16, fontWeight: '600' },
-});
